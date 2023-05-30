@@ -1,10 +1,14 @@
-import axios from "axios";
-import React, { useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import axios from "../../customize/axios";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Code = (props) => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const firstRunRef = useRef(false);
+
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -22,15 +26,39 @@ const Code = (props) => {
               withCredentials: true,
             }
           );
-          console.log("🏆 ~ res:", res);
+          if (res && +res.EC === 0) {
+            // success
+            navigate("/");
+          } else {
+            // error
+            setMessage(res.EM);
+          }
         }
       } catch (error) {
+        error.EM && setMessage(error.EM);
         console.log("🏆 ~ error:", error);
       }
     })();
   }, []);
 
-  return <div>Code</div>;
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-12 mt-3">
+          {message}
+          {message && (
+            <span>
+              . Please do login again. Click here to&nbsp;
+              <a
+                href={`${process.env.REACT_APP_BACKEND_SSO}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`}>
+                Login
+              </a>
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Code;
