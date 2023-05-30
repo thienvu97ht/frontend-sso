@@ -17,6 +17,9 @@ const Code = (props) => {
             process.env.REACT_APP_BACKEND_VERIFY_TOKEN,
             {
               ssoToken,
+            },
+            {
+              withCredentials: true,
             }
           );
           console.log("🏆 ~ res:", res);
@@ -27,7 +30,6 @@ const Code = (props) => {
     })();
   }, []);
 
-  console.log("RENDER");
   return <div>Code</div>;
 };
 
