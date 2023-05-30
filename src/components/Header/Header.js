@@ -1,14 +1,19 @@
 import React from "react";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
-import "./Header.scss";
 import { NavLink } from "react-router-dom";
+import "./Header.scss";
 
 // rafce
 const Header = () => {
+  const handleLogin = () => {
+    // redirect to SSO
+    window.location.href = `${process.env.REACT_APP_BACKEND_SSO}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`;
+  };
+
   return (
     <Navbar bg="light" expand="md">
       <Container>
-        <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand>React-Bootstrap</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -22,7 +27,7 @@ const Header = () => {
 
           <Nav>
             <NavDropdown title="Settings" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleLogin}>Login</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
