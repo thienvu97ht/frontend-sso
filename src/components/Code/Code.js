@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { doLogin } from "../../redux/action/accountAction";
 
-const Code = (props) => {
+const Code = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -13,10 +13,6 @@ const Code = (props) => {
 
   const firstRunRef = useRef(false);
 
-  if (user && user.access_token) {
-    navigate("/");
-  }
-
   useEffect(() => {
     const ssoToken = searchParams.get("ssoToken");
     if (ssoToken && firstRunRef.current === false) {
@@ -24,6 +20,12 @@ const Code = (props) => {
       dispatch(doLogin(ssoToken));
     }
   }, []);
+
+  useEffect(() => {
+    if (user && user.access_token) {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <div className="container">
@@ -34,7 +36,7 @@ const Code = (props) => {
             <span>
               . Please do login again. Click here to&nbsp;
               <a
-                href={`${process.env.REACT_APP_BACKEND_SSO}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`}>
+                href={`${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`}>
                 Login
               </a>
             </span>

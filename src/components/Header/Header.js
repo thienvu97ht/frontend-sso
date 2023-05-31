@@ -1,19 +1,24 @@
 import React from "react";
 import { Container, Nav, NavDropdown, Navbar } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "./Header.scss";
+import { doLogOut } from "../../redux/action/accountAction";
 
 // rafce
 const Header = () => {
+  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.account.userInfo);
 
   const handleLogin = () => {
     // redirect to SSO
-    window.location.href = `${process.env.REACT_APP_BACKEND_SSO}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`;
+    window.location.href = `${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`;
   };
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    dispatch(doLogOut());
+  };
 
   return (
     <Navbar bg="light" expand="md">
