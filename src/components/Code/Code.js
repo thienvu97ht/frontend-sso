@@ -1,44 +1,28 @@
-import axios from "../../customize/axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { doLogin } from "../../redux/action/accountAction";
 
 const Code = (props) => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const message = useSelector((state) => state.account.errMessage);
+  const user = useSelector((state) => state.account.userInfo);
 
   const firstRunRef = useRef(false);
 
-  const [message, setMessage] = useState("");
+  if (user && user.access_token) {
+    navigate("/");
+  }
 
   useEffect(() => {
-    (async () => {
-      try {
-        console.log("API");
-        const ssoToken = searchParams.get("ssoToken");
-        if (ssoToken && firstRunRef.current === false) {
-          firstRunRef.current = true;
-          const res = await axios.post(
-            process.env.REACT_APP_BACKEND_VERIFY_TOKEN,
-            {
-              ssoToken,
-            },
-            {
-              withCredentials: true,
-            }
-          );
-          if (res && +res.EC === 0) {
-            // success
-            navigate("/");
-          } else {
-            // error
-            setMessage(res.EM);
-          }
-        }
-      } catch (error) {
-        error.EM && setMessage(error.EM);
-        console.log("🏆 ~ error:", error);
-      }
-    })();
+    const ssoToken = searchParams.get("ssoToken");
+    if (ssoToken && firstRunRef.current === false) {
+      firstRunRef.current = true;
+      dispatch(doLogin(ssoToken));
+    }
   }, []);
 
   return (
