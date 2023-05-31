@@ -91,6 +91,7 @@ export const doLogOut = () => {
         dispatch({
           type: USER_LOGOUT_SUCCESS,
         });
+        window.location.href = "/";
       } else {
         // error
         dispatch({
