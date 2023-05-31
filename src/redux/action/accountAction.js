@@ -41,3 +41,38 @@ export const doLogin = (ssoToken) => {
     }
   };
 };
+
+export const doGetAccount = () => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: USER_LOGIN_REQUEST,
+    });
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BACKEND_GET_ACCOUNT}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (res && +res.EC === 0) {
+        // success
+        dispatch({
+          type: USER_LOGIN_SUCCESS,
+          user: res.DT,
+        });
+      } else {
+        // error
+        dispatch({
+          type: USER_LOGIN_FAILED,
+          error: res.EM,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: USER_LOGIN_FAILED,
+        error: error?.EM || "Something wrong...",
+      });
+    }
+  };
+};
