@@ -17,10 +17,7 @@ instance.interceptors.request.use(
     // Alter defaults after instance has been created
     let headerToken = store.getState()?.account?.userInfo?.access_token ?? "";
 
-    if (headerToken)
-      instance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${headerToken}`;
+    if (headerToken) config.headers.Authorization = `Bearer ${headerToken}`;
 
     // Do something before request is sent
     return config;
@@ -39,7 +36,20 @@ instance.interceptors.response.use(
     return response && response.data ? response.data : response;
   },
   function (error) {
-    throw error.response?.data;
+    if (error.response.status === 400) {
+      let headerToken = store.getState()?.account?.userInfo?.access_token ?? "";
+
+      if (headerToken) {
+        error.config.headers.Authorization = `Bearer ${headerToken}`;
+      }
+      // return axios.request(error.config);
+    }
+
+    if (error && error.response && error.response.data) {
+      return error.response.data;
+    }
+    return Promise.reject(error);
+    // throw error.response?.data;
   }
 );
 

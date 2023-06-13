@@ -25,14 +25,6 @@ const App = () => {
     }
   }, []);
 
-  useEffect(() => {
-    setTimeout(async () => {
-      await axios.get("http://localhost:8081/health").then((res) => {
-        console.log("🏆 ~ axios.get ~ res:", res);
-      });
-    }, 2000);
-  }, []);
-
   return (
     <>
       {isLoading ? (
