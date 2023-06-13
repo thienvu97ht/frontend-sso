@@ -4,6 +4,7 @@ import { HashLoader } from "react-spinners";
 import { doGetAccount } from "./redux/action/accountAction";
 import Header from "./components/Header/Header";
 import { Outlet } from "react-router-dom";
+import axios from "./customize/axios";
 
 const style = {
   position: "fixed",
@@ -22,6 +23,14 @@ const App = () => {
     if (user && !user.access_token) {
       dispatch(doGetAccount());
     }
+  }, []);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      await axios.get("http://localhost:8081/health").then((res) => {
+        console.log("🏆 ~ axios.get ~ res:", res);
+      });
+    }, 2000);
   }, []);
 
   return (
