@@ -2,8 +2,9 @@ import Carousel from "react-bootstrap/Carousel";
 import "./WeatherState.scss";
 import axios from "../../customize/axios";
 import { useState, useEffect } from "react";
+import moment from "moment";
 
-const WeatherState = (props) => {
+const WeatherState = ({ cityState }) => {
   const [dataWeather, setDataWeather] = useState([]);
 
   const getWeatherByLocation = async (locationId) => {
@@ -39,8 +40,8 @@ const WeatherState = (props) => {
   };
 
   useEffect(() => {
-    getWeatherByLocation(1236594);
-  }, []);
+    getWeatherByLocation(cityState);
+  }, [cityState]);
 
   return (
     <div className="weather-container">
