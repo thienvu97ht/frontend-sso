@@ -33,6 +33,8 @@ export const doLogin = (ssoToken) => {
           type: USER_LOGIN_FAILED,
           error: res.EM,
         });
+
+        window.location.href = `${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_CURRENT_PROJECT_URL}`;
       }
     } catch (error) {
       dispatch({

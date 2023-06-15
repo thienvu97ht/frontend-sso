@@ -13,7 +13,7 @@ const Header = () => {
 
   const handleLogin = () => {
     // redirect to SSO
-    window.location.href = `${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`;
+    window.location.href = `${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_CURRENT_PROJECT_URL}`;
   };
 
   const handleLogout = () => {

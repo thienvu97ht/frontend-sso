@@ -1,4 +1,5 @@
 import axios from "axios";
+import axiosRetry from "axios-retry";
 
 let store;
 export const injectStore = (_store) => {
@@ -9,6 +10,16 @@ export const injectStore = (_store) => {
 const instance = axios.create({
   //   baseURL: "https://api.example.com",
   withCredentials: true,
+});
+
+axiosRetry(instance, {
+  retries: 3,
+  retryCondition: (error) => {
+    return error.response.status === 400 || error.response.status === 405;
+  },
+  retryDelay: (number, error) => {
+    return number * 100;
+  },
 });
 
 // Add a request interceptor
@@ -36,14 +47,14 @@ instance.interceptors.response.use(
     return response && response.data ? response.data : response;
   },
   function (error) {
-    if (error.response.status === 400) {
-      let headerToken = store.getState()?.account?.userInfo?.access_token ?? "";
+    // if (error.response.status === 400) {
+    //   let headerToken = store.getState()?.account?.userInfo?.access_token ?? "";
 
-      if (headerToken) {
-        error.config.headers.Authorization = `Bearer ${headerToken}`;
-      }
-      // return axios.request(error.config);
-    }
+    //   if (headerToken) {
+    //     error.config.headers.Authorization = `Bearer ${headerToken}`;
+    //   }
+    //   // return axios.request(error.config);
+    // }
 
     if (error && error.response && error.response.data) {
       return error.response.data;

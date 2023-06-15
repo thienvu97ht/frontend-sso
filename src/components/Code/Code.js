@@ -36,7 +36,7 @@ const Code = () => {
             <span>
               . Please do login again. Click here to&nbsp;
               <a
-                href={`${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_SERVICE_UTL}`}>
+                href={`${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_CURRENT_PROJECT_URL}`}>
                 Login
               </a>
             </span>
