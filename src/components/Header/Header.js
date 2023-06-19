@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import "./Header.scss";
 import { doLogOut } from "../../redux/action/accountAction";
+import logoSvg from "../../logo.svg";
 
 // rafce
 const Header = () => {
@@ -23,15 +24,24 @@ const Header = () => {
   return (
     <Navbar bg="light" expand="md">
       <Container>
-        <Navbar.Brand>React-Bootstrap</Navbar.Brand>
+        <NavLink to="/" className="navbar-brand">
+          <img
+            src={logoSvg}
+            alt=""
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />
+          Hỏi dân IT SSO
+        </NavLink>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <NavLink to="/" className="nav-link">
               Home
             </NavLink>
-            <NavLink to="/about" className="nav-link">
-              About
+            <NavLink to="/weather" className="nav-link">
+              Weather
             </NavLink>
           </Nav>
 

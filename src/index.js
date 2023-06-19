@@ -9,6 +9,8 @@ import "./index.scss";
 import store from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 import AppRoute from "./routes/AppRoute";
+import Home from "./components/Home/Home";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,7 +19,15 @@ root.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppRoute />}>
-            <Route path="/about" element={<About />} />
+            <Route path="/" index element={<Home />} />
+            <Route
+              path="/weather"
+              element={
+                <PrivateRoutes>
+                  <About />
+                </PrivateRoutes>
+              }
+            />
           </Route>
           <Route path="/code" element={<Code />} />
         </Routes>

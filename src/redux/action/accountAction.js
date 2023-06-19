@@ -34,7 +34,9 @@ export const doLogin = (ssoToken) => {
           error: res.EM,
         });
 
-        window.location.href = `${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_CURRENT_PROJECT_URL}`;
+        if (window.location.href !== "/") {
+          window.location.href = `${process.env.REACT_APP_BACKEND_SSO_LOGIN}?serviceURL=${process.env.REACT_APP_CURRENT_PROJECT_URL}`;
+        }
       }
     } catch (error) {
       dispatch({

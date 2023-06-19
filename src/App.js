@@ -1,10 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HashLoader } from "react-spinners";
-import { doGetAccount } from "./redux/action/accountAction";
-import Header from "./components/Header/Header";
 import { Outlet } from "react-router-dom";
-import axios from "./customize/axios";
+import { HashLoader } from "react-spinners";
+import Header from "./components/Header/Header";
+import { doGetAccount } from "./redux/action/accountAction";
 
 const style = {
   position: "fixed",
@@ -15,6 +14,7 @@ const style = {
 
 const App = () => {
   const dispatch = useDispatch();
+  const firstRenderRef = useRef(true);
 
   const user = useSelector((state) => state.account.userInfo);
   const isLoading = useSelector((state) => state.account.isLoading);
@@ -23,6 +23,7 @@ const App = () => {
     if (user && !user.access_token) {
       dispatch(doGetAccount());
     }
+    firstRenderRef.current = false;
   }, []);
 
   return (
@@ -32,10 +33,14 @@ const App = () => {
           <HashLoader color="#36d7b7" loading={true} size={100} />
         </div>
       ) : (
-        <div className="App">
-          <Header />
-          <Outlet />
-        </div>
+        <>
+          {firstRenderRef.current === false && (
+            <div className="App">
+              <Header />
+              <Outlet />
+            </div>
+          )}
+        </>
       )}
     </>
   );
