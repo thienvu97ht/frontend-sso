@@ -27,6 +27,7 @@ export const doLogin = (ssoToken) => {
           type: USER_LOGIN_SUCCESS,
           user: res.DT,
         });
+        dispatch(doGetAccount());
       } else {
         // error
         dispatch({
